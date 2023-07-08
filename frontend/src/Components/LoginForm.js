@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 
-function RegisterForm() {
+function LoginForm() {
   const [userData, setUserData] = useState({
     login: "",
     password: "",
@@ -35,7 +35,7 @@ function RegisterForm() {
   return (
     <div className="form-container">
       <Form onSubmit={handleSubmit}>
-        <h2 className="form-title">Register</h2>
+        <h2 className="form-title">Login</h2>
         <Form.Group controlId="login" className="mb-3">
           <Form.Label>Username</Form.Label>
           <Form.Control
@@ -78,4 +78,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default LoginForm;
