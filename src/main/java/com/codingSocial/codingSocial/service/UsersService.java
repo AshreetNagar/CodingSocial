@@ -7,6 +7,7 @@ import com.codingSocial.codingSocial.repository.UsersRepository;
 @Service
 public class UsersService {
 
+    
     private final UsersRepository usersRepository;
 
     public UsersService(UsersRepository usersRepository) {
@@ -18,6 +19,10 @@ public class UsersService {
             return null;
         }
         else {
+            if(usersRepository.findFirstByLogin(login).isPresent()) {
+                System.out.println("Duplicate login");
+                return null;
+            }
             UsersModel usersModel = new UsersModel();
             usersModel.setLogin(login);
             usersModel.setPassword(password);
