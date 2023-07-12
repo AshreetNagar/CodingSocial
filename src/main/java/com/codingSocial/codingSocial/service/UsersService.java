@@ -27,14 +27,14 @@ public class UsersService {
             }
             UsersModel usersModel = new UsersModel();
             usersModel.setLogin(login);
-            usersModel.setPassword(password);
+            usersModel.setPassword(this.hashcode(password));
             usersModel.setEmail(email);
             return usersRepository.save(usersModel);
         }
     }
 
     public UsersModel authenticate(String login, String password) {
-        return usersRepository.findByLoginAndPassword(login, password).orElse(null);
+        return usersRepository.findByLoginAndPassword(login, this.hashcode(password)).orElse(null);
     }
 
     public String hashcode (String password) {

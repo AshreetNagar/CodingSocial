@@ -41,7 +41,7 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute UsersModel usersModel, Model model) {
+    public String login(@RequestBody UsersModel usersModel, Model model) {
         System.out.println("login request: " + usersModel);
         UsersModel authenticated = usersService.authenticate(usersModel.getLogin(), usersModel.getPassword());
         if (authenticated != null) {
