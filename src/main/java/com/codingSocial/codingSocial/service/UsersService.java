@@ -4,19 +4,21 @@ import org.springframework.stereotype.Service;
 import com.codingSocial.codingSocial.model.UsersModel;
 import com.codingSocial.codingSocial.repository.UsersRepository;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import org.apache.tomcat.util.descriptor.web.MessageDestination;
+import org.aspectj.bridge.Message;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UsersService {
-
-    PasswordEncoder passwordEncoder;
     
     private final UsersRepository usersRepository;
 
     public UsersService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder(null, 0);
     }
 
     public UsersModel registerUser(String login, String password, String email) {
@@ -40,9 +42,20 @@ public class UsersService {
         return usersRepository.findByLoginAndPassword(login, password).orElse(null);
     }
 
-    public UsersModel save(UsersModel usersModel) {
-        String encodedPassword = this.passwordEncoder.encode(usersModel.getPassword());
-        usersModel.setPassword(encodedPassword);
-        return this.usersRepository.save(usersModel);
+    public String doHashing (String password) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(password.getBytes());
+            byte [] resultByteArray = messageDigest.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : resultByteArray) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+
     }
 };
