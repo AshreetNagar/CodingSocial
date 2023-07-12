@@ -7,11 +7,6 @@ import com.codingSocial.codingSocial.repository.UsersRepository;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.tomcat.util.descriptor.web.MessageDestination;
-import org.aspectj.bridge.Message;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 @Service
 public class UsersService {
     
@@ -42,7 +37,7 @@ public class UsersService {
         return usersRepository.findByLoginAndPassword(login, password).orElse(null);
     }
 
-    public String doHashing (String password) {
+    public String hashcode (String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.update(password.getBytes());
