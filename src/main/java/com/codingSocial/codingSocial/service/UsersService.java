@@ -27,17 +27,17 @@ public class UsersService {
             }
             UsersModel usersModel = new UsersModel();
             usersModel.setLogin(login);
-            usersModel.setPassword(password);
+            usersModel.setPassword(this.hashCode(password));
             usersModel.setEmail(email);
             return usersRepository.save(usersModel);
         }
     }
 
     public UsersModel authenticate(String login, String password) {
-        return usersRepository.findByLoginAndPassword(login, password).orElse(null);
+        return usersRepository.findByLoginAndPassword(login, this.hashCode(password)).orElse(null);
     }
 
-    public String hashcode (String password) {
+    public String hashCode (String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.update(password.getBytes());
