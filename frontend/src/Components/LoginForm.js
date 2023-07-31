@@ -6,7 +6,6 @@ function LoginForm() {
   const [userData, setUserData] = useState({
     login: "",
     password: "",
-    email: "",
   });
 
   const handleChange = (event) => {
@@ -21,7 +20,7 @@ function LoginForm() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/register`,
+        `http://localhost:8080/login` ,
         user
       );
       console.info("==RESPONSE DATA START==")
@@ -58,18 +57,7 @@ function LoginForm() {
           />
         </Form.Group>
 
-        <Form.Group controlId="email" className="mb-3">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter Email"
-            name="email"
-            value={userData.email}
-            onChange={handleChange}
-          />
-        </Form.Group>
-
-        <Button variant="primary" type="submit" className="signup-btn">
+        <Button variant="primary" type="submit" className="signin-btn">
           Submit
         </Button>
 

@@ -1,7 +1,6 @@
 package com.codingSocial.codingSocial.controller;
 import com.codingSocial.codingSocial.model.UsersModel;
 import com.codingSocial.codingSocial.service.UsersService;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @CrossOrigin
+
 public class UsersController {
 
     private final UsersService usersService;
@@ -41,7 +41,7 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute UsersModel usersModel, Model model) {
+    public String login(@RequestBody UsersModel usersModel, Model model) {
         System.out.println("login request: " + usersModel);
         UsersModel authenticated = usersService.authenticate(usersModel.getLogin(), usersModel.getPassword());
         if (authenticated != null) {
