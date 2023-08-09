@@ -1,6 +1,8 @@
 package com.codingSocial.codingSocial.controller;
 import com.codingSocial.codingSocial.model.UsersModel;
 import com.codingSocial.codingSocial.service.UsersService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,15 +43,16 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UsersModel usersModel, Model model) {
+    public ResponseEntity<?> login(@RequestBody UsersModel usersModel, Model model) {
         System.out.println("login request: " + usersModel);
         UsersModel authenticated = usersService.authenticate(usersModel.getLogin(), usersModel.getPassword());
         if (authenticated != null) {
             model.addAttribute("usersLogin", authenticated.getLogin());
-            return "account_page";
+            authenticated.setPassword("");
+            return ResponseEntity.ok().body(authenticated);
         }
         else {
-            return "error_page";
+            return ResponseEntity.badRequest().body("error_page");
         }
         
     }    

@@ -6,10 +6,16 @@ function LoginForm() {
   const [userData, setUserData] = useState({
     login: "",
     password: "",
+    rememberMe: ""
   });
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, checked } = event.target;
+    if (name == "rememberMe"){
+      setUserData(userData)
+      setUserData((prevState) => ({ ...prevState, [name]: value }));
+      console.log(userData)
+    }
     setUserData((prevState) => ({ ...prevState, [name]: value }));
   };
 
@@ -25,10 +31,15 @@ function LoginForm() {
       );
       console.info("==RESPONSE DATA START==")
       console.info(response)
+      console.info(userData)
       console.info("==RESPONSE DATA END==")
+      sessionStorage.setItem("userid", response.data.id);
+      sessionStorage.setItem("login", response.data.login);
+      sessionStorage.setItem("email", response.data.email);
     } catch (error) {
       console.error(error);
     }
+    window.location.reload(); 
   };
 
   return (
@@ -56,6 +67,16 @@ function LoginForm() {
             onChange={handleChange}
           />
         </Form.Group>
+
+        {/* <Form.Group controlId="rememberMe" className="mb-3">
+          <Form.Label>Stay Logged In?</Form.Label>
+          <Form.Control
+            type="checkbox"
+            name="rememberMe"
+            value={userData.rememberMe}
+            onChange={handleChange}
+          />
+        </Form.Group> */}
 
         <Button variant="primary" type="submit" className="signin-btn">
           Submit
